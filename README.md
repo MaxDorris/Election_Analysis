@@ -1,5 +1,5 @@
 
-# Election_Analysis
+# Election-Analysis
 
 ## Project Overview (Prompt)
 A Colorado Board of  Elections employee has given you the following tasks to complete the election audit of a recent local congressional election.
@@ -230,7 +230,7 @@ with open(file_to_save,"w") as txt_file:
 The result for the election audit are shown below in a screenshot of election_results.txt (included in analysis folder of this repository):
 
 <p align="center">
-  <img width="250" height="225" src=analysis/election_results.png>
+  <img width="250" height="500" src=analysis/election_analysis.png>
   </p>
 
 ## Election Audit Summary
