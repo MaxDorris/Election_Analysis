@@ -230,7 +230,7 @@ with open(file_to_save,"w") as txt_file:
 The result for the election audit are shown below in a screenshot of election_results.txt (included in analysis folder of this repository):
 
 <p align="center">
-  <img width="250" height="500" src=analysis/election_analysis.png>
+  <img width=auto height="500" src=analysis/election_analysis.png>
   </p>
 
 ## Election Audit Summary
