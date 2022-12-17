@@ -34,6 +34,9 @@ The purpose of this analysis was to take catagorized election data in a .csv fil
 ## Election Audit Results
 
 ### How many votes were cast in this congressional election?
+After importing the correct modules, I defined a variable **total_votes** that would increase by one with each iteration of a *for* loop that would scroll through each row in the .csv file.
+
+
 
 ### Provide a breakdown of the number of votes and the percentage of total votes for each county in the precinct.
 
