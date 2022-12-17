@@ -34,9 +34,79 @@ The purpose of this analysis was to take catagorized election data in a .csv fil
 ## Election Audit Results
 
 ### How many votes were cast in this congressional election?
-After importing the correct modules, I defined a variable **total_votes** that would increase by one with each iteration of a *for* loop that would scroll through each row in the .csv file.
+After importing the correct modules(**csv** and **os**), I defined a variable **total_votes** that would increase by one with each iteration of a *for* loop that scrolled through each row of data in the .csv file. To access this data, I had to first open the file from its location using the **os** module, then open and read the file with the **csv** module. After I removed the column headers (non-relevant data), I began the for loop. This is shown below:
+```
+#0. Initiliaize Poll Data
+
+#add dependencies
+import csv
+import os
+
+#create variable to hold csv file
+file_to_load = os.path.join("resources", "election_results.csv")
+
+#create file to write selected data to
+file_to_save = os.path.join("analysis", "election_analysis.txt")
 
 
+#1. Find total number of votes cast
+
+# create empty list to hold county names
+counties = []
+
+# votes by county (dictionary)
+county_votes = {}
+
+#initialize vote counter
+total_votes = 0
+
+#empty list for to hold candidate names
+candidate_names = []
+
+#votes by candidate (dictionary)
+candidate_votes = {}
+
+#
+
+# open file and give it ID "election_data"
+with open(file_to_load) as election_data:
+    
+    # read and analyze data
+    file_reader = csv.reader(election_data)
+
+# remove non-relevant headers (clean)
+    headers = next(file_reader)
+
+    # add 1 vote for every row to find total
+    for row in file_reader:
+        total_votes += 1
+        
+        #2. Make list of candidates whoe received votes
+
+        # if first unique candidate mention in election_data
+        if row[2] not in candidate_names:
+
+            # add candidate name to list
+            candidate_names.append(row[2])
+
+            #3. Total votes each candidate receieved
+
+            # start tracking votes for each candidate as an assigned dictionary value
+            candidate_votes[row[2]] = 0
+        
+        if row[1] not in counties:
+            # add candidate name to list
+            counties.append(row[1])
+
+            county_votes[row[1]] = 0
+
+        # add vote for county
+        county_votes[row[1]] += 1
+
+        # add vote for the candidate
+        candidate_votes[row[2]] += 1
+
+```
 
 ### Provide a breakdown of the number of votes and the percentage of total votes for each county in the precinct.
 
