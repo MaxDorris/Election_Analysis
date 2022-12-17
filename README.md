@@ -228,6 +228,9 @@ with open(file_to_save,"w") as txt_file:
 
 ## Election Audit Results
 The result for the election audit are shown below in a screenshot of election_results.txt (included in analysis folder of this repository):
-![Figure 1: Election Audit Results](analysis/election_results.png)
+
+<p align="center">
+  <img width="250" height="225" src=analysis/election_results.png>
+  </p>
 
 ## Election Audit Summary
