@@ -91,7 +91,10 @@ with open(file_to_save,"w") as txt_file:
     #create variable to hold winning percentage of total county votes
     winning_county_percentage = 0
 
+    #creates header for county section of output
     county_results = ('County Votes:\n')
+
+    #loop through dictionary using county key
     for county in county_votes:
 
         #pulls vote amount from each candidate
@@ -111,12 +114,18 @@ with open(file_to_save,"w") as txt_file:
 
             # "         percentage                           "
 
-
+        #creates county data variable for .txt and print
         county_results = county_results + (f'{county}: {percentage:.1%} ({votes:,})\n')
+
+    #adds section header info
     county_results = county_results + ('---------------------------\n'
     f'Largest County Turnout: {winning_county}\n'
     '---------------------------')
+
+    #writes to text file
     txt_file.write(county_results)
+
+    #prints to terminal
     print(county_results)
 
 
@@ -132,7 +141,9 @@ with open(file_to_save,"w") as txt_file:
     winning_percentage = 0
 
     #extract individual votes form candidate_votes dictionary
-    candidate_results = "Candidate Votes:"
+    candidate_results = ('\nCandidate Votes:')
+
+    # loops through candidate_votes dictionary using candidate key
     for candidate in candidate_votes:
 
         #pulls vote amount from each candidate
@@ -161,7 +172,7 @@ with open(file_to_save,"w") as txt_file:
 
     #5. winner of election based on percentage of votes (popular vote)
 
-    winning_candidate_summary = ('---------------------------\n'
+    winning_candidate_summary = ('\n---------------------------\n'
         f'Winner: {winner}\n'
         f'Winning Vote Count: {winning_votes:,}\n'
         f'Winning Percentage: {winning_percentage:.1%}\n'
