@@ -1,3 +1,4 @@
+
 # Election_Analysis
 
 ## Project Overview (Prompt)
@@ -36,11 +37,12 @@ The purpose of this analysis was to take catagorized election data in a .csv fil
 ### How many votes were cast in this congressional election?
 After importing the correct modules(**csv** and **os**), I defined a variable **total_votes** that would increase by one with each iteration of a *for* loop that scrolled through each row of data in the .csv file. To access this data, I had to first open the file from its location using the **os** module, then open and read the file with the **csv** module. After I removed the column headers (non-relevant data), I began the for loop. This is shown below:
 ```
+<span style="color:blue">
 #0. Initiliaize Poll Data
 
 #add dependencies
-import csv
-import os
+*import csv*
+*import os*
 
 #create variable to hold csv file
 file_to_load = os.path.join("resources", "election_results.csv")
@@ -105,6 +107,7 @@ with open(file_to_load) as election_data:
 
         # add vote for the candidate
         candidate_votes[row[2]] += 1
+</span>
 
 ```
 
