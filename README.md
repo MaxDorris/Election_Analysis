@@ -234,3 +234,4 @@ The result for the election audit are shown below in a screenshot of election_re
   </p>
 
 ## Election Audit Summary
+Using this script to package election results into a single text file would increase the speed of ballot counting by several orders of magnitude in comparison to hand-counting ballots. The script could quickly be adapted to any election data file categorizing votes by candidate and county by introducing a subroutine that finds the correct column ID for both candidate and county. It could then plug this value into any "row[x]" references (where x = column ID of either candidate or county). Additionally, the script could be adapted to suit tallying the popular vote of presidential elections by adding a subroutine that takes into account the state each county is in. This could utilize a pre-existing dictionary of all US counties organized by state, or a dictionary could be generated if the .csv file contains both state and county data for each row.
