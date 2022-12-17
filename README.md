@@ -32,17 +32,18 @@ The analysis for the election show that:
 ### Purpose
 The purpose of this analysis was to take catagorized election data in a .csv file and transform it into a palatable summary comprised of total votes cast, counties where votes were cast, candidates for which votes were cast, number of (and percentage of total) votes cast in each represented county, number (and percentage of total) votes cast for each candidate, and the winner of the election based on percentage of votes cast in all counties.
 
-## Election Audit Results
 
-### How many votes were cast in this congressional election?
-After importing the correct modules(**csv** and **os**), I defined a variable **total_votes** that would increase by one with each iteration of a *for* loop that scrolled through each row of data in the .csv file. To access this data, I had to first open the file from its location using the **os** module, then open and read the file with the **csv** module. After I removed the column headers (non-relevant data), I began the for loop. This is shown below:
+
+### Finding Total Votes & Votes by County and Candidate
+After importing the correct modules(**csv** and **os**), I defined a variable **total_votes** that would increase by one with each iteration of a *for* loop that scrolled through each row of data in the .csv file. To access this data, I had to first open the file from its location using the **os** module, then open and read the file with the **csv** module. After I removed the column headers (non-relevant data), I began the for loop. 
+
+I created a list, **counties**, to store county names and a dictionary, **county_votes**, to store name-votes pairs (key, value) for each county to find the counties represented in the vote data, as well as how many votes each one accrued. After finding a unique county name with a membership if-statement, both **counties** and **county_votes** was updated with the name of the county. Then **county_votes** was initiliazed to hold 0 votes for the unique county. This integer value was updated for each county each time the second value in each row was equal to the county name. The same process was carries out for **candidate_names** and **candidate_votes**. This entire process is outlined in more detail below:
 ```
-<span style="color:blue">
 #0. Initiliaize Poll Data
 
 #add dependencies
-*import csv*
-*import os*
+import csv
+import os
 
 #create variable to hold csv file
 file_to_load = os.path.join("resources", "election_results.csv")
@@ -107,16 +108,126 @@ with open(file_to_load) as election_data:
 
         # add vote for the candidate
         candidate_votes[row[2]] += 1
-</span>
 
 ```
+### Finding Largest Turnout, County Statistics, and Winning Candidate Statistics
+I began this next section of code by creating a text file to store my findings. I then created a variable to store the name of the winning county, a variable to store the number of votes that were cast within this county, variable to store the calculation of the percentage of total votes by county, and one last variable to store these results as text. Within a for-loop iterating through each county in the **county_votes** dictionary, I calculated the percentage of the total votes and created an if-statement to find the winning county. This if-statement sifts through the **county_votes** values and only stores the county with the greatest number of votes in the variables listed above. These variable were then organized into a single variable and written to the text document.
 
-### Provide a breakdown of the number of votes and the percentage of total votes for each county in the precinct.
+The exact same process was repeated to find the winning candidate adn print out those parallel stats. The entire process can be seen below in more detail:
+```
+with open(file_to_save,"w") as txt_file:
 
-### Which county had the largest number of votes?
+    #header
+    election_results = (
+        f"\nElection Results\n"
+        f"---------------------------\n"
+        f"Total Votes: {total_votes:,}\n"
+        f"---------------------------\n")
+    print(election_results, end="")
+    # Save the final vote count to the text file.
+    txt_file.write(election_results)
 
-### Provide a breakdown of the number of votes and the percentage of the total votes each candidate received.
+    #create variable to hold name of winning county
+    winning_county = ""
 
-### Which candidate won the election, what was their vote count, and what was their percentage of the total votes?
+    #create variable to hold winning number of county votes
+    winning_county_votes = 0
+
+    #create variable to hold winning percentage of total county votes
+    winning_county_percentage = 0
+
+    #creates header for county section of output
+    county_results = ('County Votes:\n')
+
+    #loop through dictionary using county key
+    for county in county_votes:
+
+        #pulls vote amount from each candidate
+        votes = county_votes[county]
+
+        #creates percentage of all votes submitted for each county
+        percentage = county_votes[county]/total_votes
+
+        #creates a one-directional update barrier, only the county with the highest percentage and vote count becomes the "winner" - also just updates from zero for first iteration of for loop
+        if votes > winning_county_votes:
+
+            # updates winning votes to highest values so far
+            winning_county_votes = votes
+
+            # "         county                               "
+            winning_county = county
+
+            # "         percentage                           "
+
+        #creates county data variable for .txt and print
+        county_results = county_results + (f'{county}: {percentage:.1%} ({votes:,})\n')
+
+    #adds section header info
+    county_results = county_results + ('---------------------------\n'
+    f'Largest County Turnout: {winning_county}\n'
+    '---------------------------')
+
+    #writes to text file
+    txt_file.write(county_results)
+
+    #prints to terminal
+    print(county_results)
+
+
+    #4. % votes each candidate won
+
+    #create variable to hold name of winning candidate
+    winner = ""
+
+    #create variable to hold winning number of votes
+    winning_votes = 0
+
+    #create variable to hold the percentage of the total the candidate collected
+    winning_percentage = 0
+
+    #extract individual votes form candidate_votes dictionary
+    candidate_results = ('\nCandidate Votes:')
+
+    # loops through candidate_votes dictionary using candidate key
+    for candidate in candidate_votes:
+
+        #pulls vote amount from each candidate
+        votes = candidate_votes[candidate]
+
+        #calulates percentage of total votes for each candidate
+        percentage = candidate_votes[candidate]/total_votes
+
+        #creates a one-directional update barrier, only the candidate with the highest percentage and vote count becomes the "winner" - also just updates from zero for first iteration of for loop
+        if votes > winning_votes and percentage > winning_percentage:
+
+            # updates winning votes to highest values so far
+            winning_votes = votes
+
+            # "         percentage                          "
+            winning_percentage = percentage
+
+            # "         candidate                           "
+            winner = candidate
+
+        candidate_results = candidate_results + (f'\n{candidate}: {percentage:.1%} ({votes:,})')
+    txt_file.write(candidate_results)
+    print(candidate_results)
+
+
+
+    #5. winner of election based on percentage of votes (popular vote)
+
+    winning_candidate_summary = ('\n---------------------------\n'
+        f'Winner: {winner}\n'
+        f'Winning Vote Count: {winning_votes:,}\n'
+        f'Winning Percentage: {winning_percentage:.1%}\n'
+            '---------------------------\n')
+    txt_file.write(winning_candidate_summary)
+    print(winning_candidate_summary)
+```
+
+## Election Audit Results
+The result for the election audit are shown below in a screenshot of election_results.txt (included in analysis folder of this repository):
+![Figure 1: Election Audit Results](analysis/election_results.png)
 
 ## Election Audit Summary
